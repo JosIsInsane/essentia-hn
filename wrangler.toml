@@ -12,7 +12,7 @@ TIMEZONE_OFFSET_MINUTES = "-360" # Honduras, UTC-6
 [[d1_databases]]
 binding = "DB"
 database_name = "essentia"
-database_id = "REEMPLAZAR-CON-ID-DE-D1"
+database_id = "c1c386aa-3088-404d-9059-7868e46b4e11"
 migrations_dir = "migrations"
 
 [[r2_buckets]]
