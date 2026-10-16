@@ -140,7 +140,7 @@ export function App() {
             <p className="eyebrow">Hecho a mano en Honduras</p>
             <h1>Los pequeños momentos merecen sentirse especiales</h1>
             <p className="hero-lead">
-              Velas de cera de soya natural y fragancias cuidadosamente seleccionadas para llenar tu espacio de calma, calidez y bienestar.
+              Velas de cera de soya natural con 100% aceites esenciales y fragancias cuidadosamente seleccionadas, para llenar tu espacio de calma, calidez y bienestar.
             </p>
             <div className="hero-actions">
               <a className="btn btn-gold" href="#catalogo">Ver el catálogo</a>
