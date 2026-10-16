@@ -137,9 +137,10 @@ export function App() {
         </div>
         <div className="wrap hero-grid">
           <div>
-            <h1>Velas de soya que se sienten como hogar</h1>
+            <p className="eyebrow">Hecho a mano en Honduras</p>
+            <h1>Los pequeños momentos merecen sentirse especiales</h1>
             <p className="hero-lead">
-              Hechas con 100% aceites esenciales. Elige tu aroma, haz el pedido aquí y lo coordinamos por WhatsApp.
+              Velas de cera de soya natural y fragancias cuidadosamente seleccionadas para llenar tu espacio de calma, calidez y bienestar.
             </p>
             <div className="hero-actions">
               <a className="btn btn-gold" href="#catalogo">Ver el catálogo</a>
@@ -149,6 +150,11 @@ export function App() {
                 </a>
               )}
             </div>
+            <ul className="hero-proof" aria-label="Lo que nos distingue">
+              <li>Cera de soya natural</li>
+              <li>Artesanal, hecha en Honduras</li>
+              <li>Pides aquí, coordinas por WhatsApp</li>
+            </ul>
           </div>
           {hero.product && (
             <FlameFrame
@@ -159,6 +165,19 @@ export function App() {
           )}
         </div>
       </header>
+
+      <section className="ritual" aria-labelledby="ritual-h">
+        <div className="wrap">
+          <p className="eyebrow">Nuestra esencia</p>
+          <h2 id="ritual-h">Más que velas, creamos pequeños rituales</h2>
+          <ol className="ritual-list">
+            <li><span className="ritual-n" aria-hidden="true">01</span><h3>Una pausa</h3><p>Al final del día, enciende una vela y deja que el aroma baje el ritmo.</p></li>
+            <li><span className="ritual-n" aria-hidden="true">02</span><h3>Un instante contigo</h3><p>Un momento de conexión contigo misma, sin prisa y sin pantallas.</p></li>
+            <li><span className="ritual-n" aria-hidden="true">03</span><h3>Tu espacio, tu lugar</h3><p>El placer de disfrutar tu casa con luz, aroma y calma.</p></li>
+          </ol>
+          <a className="btn btn-wine" href="#catalogo">Encuentra tu aroma</a>
+        </div>
+      </section>
 
       <main id="catalogo" tabIndex={-1}>
         {catalog && (
