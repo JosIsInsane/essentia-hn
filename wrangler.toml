@@ -1,0 +1,20 @@
+# Cloudflare Pages + Functions. Ver docs/DEPLOY.md
+name = "essentia"
+compatibility_date = "2026-10-01"
+pages_build_output_dir = "dist"
+
+[vars]
+TIMEZONE_OFFSET_MINUTES = "-360" # Honduras, UTC-6
+# Anti-bots opcional (Cloudflare Turnstile). La llave pública va aquí;
+# la secreta con: npx wrangler pages secret put TURNSTILE_SECRET
+# TURNSTILE_SITE_KEY = "0x4AAAA..."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "essentia"
+database_id = "REEMPLAZAR-CON-ID-DE-D1"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "essentia-images"

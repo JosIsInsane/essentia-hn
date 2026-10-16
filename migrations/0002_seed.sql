@@ -1,0 +1,72 @@
+-- Catálogo inicial, tomado del catálogo Fall Season de Essentia.
+
+INSERT INTO sections (id, parent_id, slug, name, blurb, sort, tone, starts_on, ends_on) VALUES
+  (1,  NULL, 'velas',         'Velas aromáticas de soya', 'Cera de soya con 100% aceites esenciales.', 1, 'cream', NULL, NULL),
+  (11, 1,    'clasica',       'Colección clásica',        'Frasco de 7 oz por L400 o de 4 oz por L280.', 1, 'cream', NULL, NULL),
+  (12, 1,    'bloom',         'Bloom Collection',         'Aromas florales de temporada.', 2, 'blush', NULL, NULL),
+  (2,  NULL, 'otono',         'Fall Season',              'Calabaza, canela y especias. Edición de temporada, hasta agotar existencias.', 2, 'wine', '2026-09-01', '2026-11-30'),
+  (3,  NULL, 'decorativas',   'Velas decorativas',        'Cada pieza viene en aroma vainilla, canela o lavanda.', 3, 'blush', NULL, NULL),
+  (31, 3,    'figuras',       'Figuras',                  '', 1, 'blush', NULL, NULL),
+  (32, 3,    'flores',        'Flores',                   '', 2, 'blush', NULL, NULL),
+  (33, 3,    'burbujas',      'Burbujas y tabletas',      '', 3, 'blush', NULL, NULL),
+  (4,  NULL, 'aromatizantes', 'Aromatizantes',            'Para el hogar y para el carro.', 4, 'cream', NULL, NULL),
+  (41, 4,    'hogar',         'Para el hogar',            '', 1, 'cream', NULL, NULL),
+  (42, 4,    'carro',         'Para el carro',            '', 2, 'cream', NULL, NULL);
+
+INSERT INTO products (id, section_id, slug, name, subtitle, description, label_color, image, image_alt, scents, tags, featured, active, sort) VALUES
+  (1,  11, 'cinnamon',        'Cinnamon',        'Canela', '', '#7A3E1D', 'static:cinnamon', 'Vela Cinnamon junto a rajas de canela y anís estrella', '[]', 'canela especias', 0, 1, 1),
+  (2,  11, 'lavender',        'Lavender',        'Lavanda', '', '#5B3E8C', 'static:lavender', 'Vela Lavender sobre fondo beige con sombras de hojas', '[]', 'lavanda floral', 0, 1, 2),
+  (3,  11, 'vanilla',         'Vanilla',         'Vainilla', '', '#9A6B12', 'static:vanilla', 'Vela Vanilla junto a orquídeas blancas y vainas de vainilla', '[]', 'vainilla dulce', 0, 1, 3),
+  (4,  11, 'orquid',          'Orquid',          'Sal marina, hojas verdes y fresia', 'Notas de salida frescas y ozónicas se funden con notas medias de sal marina, exuberantes hojas verdes y una embriagadora fresia.', '#5E2E86', 'static:orquid', 'Vela Orquid en vidrio esmerilado junto a una orquídea blanca', '[]', 'orquidea floral fresco marino', 0, 1, 4),
+  (5,  11, 'cedarwood-blanc', 'Cedarwood Blanc', 'Cedro, pachulí y ámbar', 'Notas de cedro y pachulí envueltos en ámbar y benzoína molida. Una fragancia aromática y terrosa.', '#7A1730', 'static:cedarwood', 'Vela Cedarwood Blanc sobre una charola de madera junto a libros', '[]', 'cedro madera pachuli ambar', 0, 1, 5),
+  (6,  11, 'eucalyptus',      'Eucalyptus',      'Eucalipto', '', '#3F6B55', 'static:eucalyptus', 'Vela Eucalyptus junto a ramas de eucalipto', '[]', 'eucalipto fresco verde', 0, 1, 6),
+  (7,  11, 'frasco-negro-4oz','Vela en frasco negro', 'Frasco de 4 oz con tapa de madera', '', '#2B1A1D', 'static:jar-4oz', 'Tres velas en frasco negro con tapa de madera', '["Vainilla","Canela","Lavanda","Orquid","Eucalipto","Cedarwood"]', 'negro madera 4oz', 0, 1, 7),
+  (8,  12, 'tulip-fields',    'Tulip Fields',    'Bloom Collection No. 2', 'Aromas de vibrantes campos de tulipanes con notas frutales.', '#B8862B', 'static:tulip', 'Vela Tulip Fields rodeada de tulipanes rosados', '[]', 'tulipan floral frutal', 1, 0, 1),
+  (9,  2,  'pumpkin-collection','Pumpkin Collection', 'Frasco ámbar de 8 oz', 'Las notas altas tostadas de canela, nuez moscada y clavo dan paso a acordes medios de crema de mantequilla sedosa y calabaza.', '#6B3A1F', 'static:pumpkin-jars', 'Tres frascos ámbar de las velas Pumpkin Spice, Pumpkin Pie y Pumpkin Chai', '["Pumpkin Spice","Pumpkin Pie","Pumpkin Chai"]', 'calabaza otono canela especias chai', 1, 1, 1),
+  (10, 2,  'calabaza-ceramica','Vela en calabaza', 'Cerámica en varios colores', '', '#8A5A12', 'static:pumpkin-ceramic', 'Velas en calabazas de cerámica de colores sobre un mantel tejido', '[]', 'calabaza ceramica otono regalo', 1, 1, 2),
+  (11, 31, 'teddy-bear',      'Teddy Bear',      'Osito con corazón', '', '#650F23', 'static:teddy', 'Vela en forma de osito con un corazón', '["Vainilla","Canela","Lavanda"]', 'oso osito regalo', 0, 1, 1),
+  (12, 31, 'halo-angel-set',  'Halo Angel Set',  'Par de ángeles', '', '#650F23', 'static:angel', 'Dos velas en forma de ángel con un corazón calado', '["Vainilla","Canela","Lavanda"]', 'angel religioso', 0, 1, 2),
+  (13, 31, 'holy-cross',      'Holy Cross',      'Cruz', '', '#650F23', 'static:cross', 'Vela en forma de cruz', '["Vainilla","Canela","Lavanda"]', 'cruz religioso', 0, 1, 3),
+  (14, 31, 'virgen-candle',   'Virgen Candle',   'Virgen de Guadalupe', '', '#650F23', 'static:virgen', 'Vela de la Virgen junto a una vela de vaso', '["Vainilla","Canela","Lavanda"]', 'virgen guadalupe religioso', 0, 1, 4),
+  (15, 32, 'peonia-set',      'Peonia Candle Set','Tres peonías', '', '#650F23', 'static:peonia', 'Tres velas en forma de peonía sobre un plato', '["Vainilla","Canela","Lavanda"]', 'peonia flor', 0, 1, 1),
+  (16, 32, 'margarita-set',   'Margarita Candle Set','Tres margaritas', '', '#650F23', 'static:margarita', 'Velas en forma de margarita', '["Vainilla","Canela","Lavanda"]', 'margarita flor', 0, 1, 2),
+  (17, 32, 'flower-set',      'Flower Set',      'Tres flores', '', '#650F23', 'static:flower', 'Velas en forma de flores variadas', '["Vainilla","Canela","Lavanda"]', 'flor rosa', 0, 1, 3),
+  (18, 33, 'bubble-candle',   'Bubble Candle',   'Cubo de burbujas', '', '#650F23', 'static:bubble', 'Vela bubble de burbujas color crema', '["Vainilla","Canela","Lavanda"]', 'burbuja cubo', 0, 1, 1),
+  (19, 33, 'mini-bubble',     'Mini Bubble Candle','Burbuja pequeña', '', '#650F23', 'static:mini-bubble', 'Velas mini bubble sobre un plato', '["Vainilla","Canela","Lavanda"]', 'burbuja mini', 0, 1, 2),
+  (20, 33, 'tabletas',        'Tabletas aromáticas','Para colgar en clósets y gavetas', '', '#650F23', 'static:tabletas', 'Dos tabletas aromáticas de cera blanca con cordel', '["Vainilla","Canela","Lavanda"]', 'tableta colgar closet', 0, 1, 3),
+  (21, 41, 'home-spray',      'Home Spray',      'Aromatizante de hogar', '', '#5B3E8C', 'static:home-spray', 'Tres aromatizantes de hogar: Vanilla, Lavender y Velvet Berries', '["Lavanda","Vainilla","Frambuesa","Coco","Eucalipto","Fresa"]', 'spray aromatizante casa ropa', 0, 1, 1),
+  (22, 42, 'essentia-drive',  'Essentia Drive',  'Colgante con tapa de madera', '', '#3D2A1E', 'static:drive', 'Aromatizante colgante con tapa de madera dentro de un carro', '["Mandarina","Piña","Cereza","Madera"]', 'carro auto colgante', 0, 1, 1),
+  (23, 42, 'aroma-drive',     'Aroma Drive',     'Para la rejilla de aire', '', '#3D2A1E', 'static:aroma-drive', 'Aromatizante con varillas en la rejilla de aire del carro', '["Mandarina","Piña","Cereza","Madera"]', 'carro auto rejilla', 0, 1, 2);
+
+INSERT INTO variants (product_id, label, price_cents, sort) VALUES
+  (1, '7 oz', 40000, 1), (1, '4 oz', 28000, 2),
+  (2, '7 oz', 40000, 1), (2, '4 oz', 28000, 2),
+  (3, '7 oz', 40000, 1), (3, '4 oz', 28000, 2),
+  (4, '7 oz', 40000, 1), (4, '4 oz', 28000, 2),
+  (5, '7 oz', 40000, 1), (5, '4 oz', 28000, 2),
+  (6, '7 oz', 40000, 1), (6, '4 oz', 28000, 2),
+  (7, '4 oz', 25000, 1),
+  (8, '7 oz', 40000, 1),
+  (9, '8 oz', 42000, 1),
+  (10, 'Unidad', 60000, 1),
+  (11, 'Unidad', 18000, 1),
+  (12, '2 unidades', 38000, 1),
+  (13, 'Unidad', 25000, 1),
+  (14, 'Unidad', 16000, 1),
+  (15, '3 unidades', 30000, 1),
+  (16, '3 unidades', 15000, 1),
+  (17, '3 unidades', 18000, 1),
+  (18, 'Unidad', 28000, 1),
+  (19, 'Unidad', 12000, 1),
+  (20, '2 unidades', 10000, 1),
+  (21, 'Frasco', 16000, 1),
+  (22, 'Unidad', 10000, 1),
+  (23, 'Unidad', 12000, 1);
+
+INSERT INTO settings (key, value) VALUES
+  ('whatsapp', '50495632609'),
+  ('instagram', 'essentiaa.hn'),
+  ('announcement', 'Fall Season ya disponible'),
+  ('hero_section', 'otono'),
+  ('delivery_note', 'El costo de envío se confirma por WhatsApp.'),
+  ('orders_open', '1');

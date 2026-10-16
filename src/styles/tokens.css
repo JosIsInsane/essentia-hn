@@ -1,0 +1,57 @@
+/* Tokens de Essentia: vino, crema y oro, como el logo y las etiquetas. */
+:root {
+  --wine: #650f23;
+  --wine-deep: #3e0814;
+  --wine-ink: #2a0a12;
+  --cream: #f7eedf;
+  --paper: #fbf6ec;
+  --blush: #f3e0d6;
+  --gold: #c99a2e;
+  --gold-soft: #e4c98a;
+  --gold-ink: #7a5310;
+  --muted: #6e4a50;
+  --rule: #dcc9a8;
+
+  /* Rol semántico (cambia con "Apaga la luz") */
+  --bg: var(--cream);
+  --surface: var(--paper);
+  --text: var(--wine-ink);
+  --text-soft: var(--muted);
+  --heading: var(--wine);
+  --accent: var(--gold);
+  --on-accent: var(--wine-ink);
+  --line: var(--rule);
+  --label-bg: #fffaf1;
+  --glow: transparent;
+
+  --display: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+  --body: 'Jost Variable', 'Avenir Next', 'Segoe UI', sans-serif;
+
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: 1.6rem;
+  --step-3: clamp(2rem, 1.4rem + 2.4vw, 3rem);
+  --step-4: clamp(2.6rem, 1.6rem + 4.6vw, 5.25rem);
+
+  --radius-s: 4px;
+  --radius-m: 10px;
+  --pill: 999px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --max: 1240px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root[data-light='off'] {
+  --bg: #1e050b;
+  --surface: #2a0912;
+  --text: #f4e6d2;
+  --text-soft: #cdb3a6;
+  --heading: #f6dfb2;
+  --accent: #e0b04a;
+  --on-accent: #1e050b;
+  --line: #4d1a26;
+  --label-bg: #f7eedf;
+  --glow: radial-gradient(60% 50% at 50% 30%, rgba(240, 161, 90, 0.18), transparent 70%);
+  color-scheme: dark;
+}

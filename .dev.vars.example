@@ -1,0 +1,5 @@
+# Copia a .dev.vars para desarrollo local. NUNCA subas .dev.vars al repo.
+# Genera el hash con: npm run hash-password
+ADMIN_PASSWORD_HASH='pbkdf2$100000$...'
+# Opcional: Cloudflare Turnstile (anti-bots en pedidos)
+# TURNSTILE_SECRET=""
