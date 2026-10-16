@@ -7,7 +7,7 @@ pages_build_output_dir = "dist"
 TIMEZONE_OFFSET_MINUTES = "-360" # Honduras, UTC-6
 # Anti-bots opcional (Cloudflare Turnstile). La llave pública va aquí;
 # la secreta con: npx wrangler pages secret put TURNSTILE_SECRET
-# TURNSTILE_SITE_KEY = "0x4AAAA..."
+TURNSTILE_SITE_KEY = "0x4AAAAAAFY5R06xM9AYKKIi"
 
 [[d1_databases]]
 binding = "DB"
