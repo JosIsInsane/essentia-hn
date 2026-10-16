@@ -55,9 +55,8 @@ Ver [SECURITY.md](SECURITY.md) para el detalle de cómo se protege la tienda y l
 
 ## Pendiente de confirmar con Essentia
 
-- Precio de **Tulip Fields** (está cargado a L400 y apagado).
 - **Pumpkin Collection**: el catálogo dice 8 oz por L420, pero la foto nueva dice 7 oz. Está cargado como 8 oz.
-- Tamaño del **Home Spray pequeño** (L80) y si sus aromas son los mismos 6 del grande.
+- Si el **Home Spray pequeño** (90 ml, L80) tiene los mismos 6 aromas del grande.
 - Zonas y costo de envío (la nota del carrito se cambia en Ajustes).
 - Fechas reales de la temporada de otoño (cargada del 1 sep al 30 nov 2026).
 - Dominio propio (por ahora sería `essentia.pages.dev`).
