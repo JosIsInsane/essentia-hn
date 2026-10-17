@@ -26,8 +26,8 @@ function flameSpot(): { x: number; y: number } {
 }
 
 /**
- * Apagar: la luz parpadea como foco viejo, todo queda negro, y la llama se enciende con un resplandor que crece.
- * Encender: un destello cálido de luz que invade la pantalla. Funciona en cualquier navegador (sin View Transitions).
+ * Apagar: la luz baja poco a poco y la llama se enciende con un resplandor suave.
+ * Encender: un velo cálido sube y se disipa. Funciona en cualquier navegador (sin View Transitions).
  */
 export function switchLight(next: Light, commit: (l: Light) => void): void {
   const run = () => { applyLight(next); commit(next); };
@@ -46,29 +46,25 @@ export function switchLight(next: Light, commit: (l: Light) => void): void {
     fx.append(bloom);
   }
   document.body.append(fx);
-  try { navigator.vibrate?.(dark ? [14, 70, 26] : 12); } catch { /* sin vibración */ }
+  try { navigator.vibrate?.(10); } catch { /* sin vibración */ }
 
-  const total = dark ? 1900 : 800;
-  const swap = dark ? 700 : 260;
-  const ease = 'cubic-bezier(0.22, 1, 0.36, 1)';
+  const total = dark ? 2200 : 1300;
+  const swap = dark ? 950 : 520;
+  const soft = 'cubic-bezier(0.45, 0, 0.25, 1)';
   const anim = fx.animate(
     dark
-      ? [
-          { opacity: 0, offset: 0 }, { opacity: 0.85, offset: 0.05 }, { opacity: 0.1, offset: 0.09 },
-          { opacity: 1, offset: 0.14 }, { opacity: 0.45, offset: 0.19 }, { opacity: 1, offset: 0.25 },
-          { opacity: 1, offset: 0.5 }, { opacity: 0, offset: 1 },
-        ]
-      : [{ opacity: 0, offset: 0 }, { opacity: 1, offset: 0.3 }, { opacity: 0, offset: 1 }],
-    { duration: total, easing: dark ? 'linear' : 'ease-out', fill: 'forwards' },
+      ? [{ opacity: 0, offset: 0 }, { opacity: 0.82, offset: 0.42 }, { opacity: 0.82, offset: 0.5 }, { opacity: 0, offset: 1 }]
+      : [{ opacity: 0, offset: 0 }, { opacity: 0.7, offset: 0.4 }, { opacity: 0.7, offset: 0.45 }, { opacity: 0, offset: 1 }],
+    { duration: total, easing: soft, fill: 'forwards' },
   );
   bloom?.animate(
     [
-      { transform: 'translate(-50%, -50%) scale(0.05)', opacity: 0, offset: 0 },
-      { transform: 'translate(-50%, -50%) scale(0.05)', opacity: 0, offset: 0.34 },
-      { transform: 'translate(-50%, -50%) scale(0.22)', opacity: 1, offset: 0.42 },
-      { transform: 'translate(-50%, -50%) scale(1.5)', opacity: 0.9, offset: 1 },
+      { transform: 'translate(-50%, -50%) scale(0.15)', opacity: 0, offset: 0 },
+      { transform: 'translate(-50%, -50%) scale(0.15)', opacity: 0, offset: 0.4 },
+      { transform: 'translate(-50%, -50%) scale(0.6)', opacity: 0.55, offset: 0.7 },
+      { transform: 'translate(-50%, -50%) scale(1.1)', opacity: 0, offset: 1 },
     ],
-    { duration: total, easing: ease, fill: 'forwards' },
+    { duration: total, easing: soft, fill: 'forwards' },
   );
   setTimeout(run, swap);
   anim.finished.then(() => fx.remove(), () => fx.remove());
