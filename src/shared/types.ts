@@ -41,8 +41,18 @@ export interface StoreSettings {
   turnstileSiteKey: string;
 }
 
+/** Foto de portada que no es un producto de la tienda. */
+export interface HeroSlide {
+  id: number;
+  image: string;
+  imageAlt: string;
+  title: string;
+  productId: number | null;
+}
+
 export interface Catalog {
   sections: Section[];
+  slides: HeroSlide[];
   settings: StoreSettings;
 }
 

@@ -103,8 +103,19 @@ export const productSchema = z
   .strict();
 export type ProductInput = z.infer<typeof productSchema>;
 
+export const slideSchema = z
+  .object({
+    image: imageRef.refine((s) => s !== '', 'Sube una foto'),
+    imageAlt: line(0, 200).default(''),
+    title: line(0, 60).default(''),
+    productId: id.nullable().default(null),
+    active: z.boolean(),
+  })
+  .strict();
+export type SlideInput = z.infer<typeof slideSchema>;
+
 export const reorderSchema = z
-  .object({ kind: z.enum(['sections', 'products']), ids: z.array(id).min(1).max(500) })
+  .object({ kind: z.enum(['sections', 'products', 'slides']), ids: z.array(id).min(1).max(500) })
   .strict();
 
 export const settingsSchema = z

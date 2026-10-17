@@ -1,5 +1,5 @@
-import type { Catalog, Product, Section, StoreSettings, Tone } from '../src/shared/types';
-import type { AdminCatalog, AdminProduct, AdminSection } from '../src/shared/admin-types';
+import type { Catalog, HeroSlide, Product, Section, StoreSettings, Tone } from '../src/shared/types';
+import type { AdminCatalog, AdminProduct, AdminSection, AdminSlide } from '../src/shared/admin-types';
 import { isLive, localDate } from '../src/shared/dates';
 import type { Env } from './env';
 
@@ -12,6 +12,7 @@ interface ProductRow {
   label_color: string; image: string; image_alt: string; scents: string; tags: string;
   featured: number; active: number; sort: number;
 }
+interface SlideRow { id: number; image: string; image_alt: string; title: string; product_id: number | null; active: number; sort: number }
 interface VariantRow { id: number; product_id: number; label: string; price_cents: number; active: number; sort: number }
 
 export function today(env: Env): string {
@@ -28,15 +29,17 @@ function parseScents(s: string): string[] {
 }
 
 async function rows(db: D1Database) {
-  const [s, p, v] = await db.batch([
+  const [s, p, v, h] = await db.batch([
     db.prepare('SELECT * FROM sections ORDER BY sort, id'),
     db.prepare('SELECT * FROM products ORDER BY sort, id'),
     db.prepare('SELECT * FROM variants ORDER BY sort, id'),
+    db.prepare('SELECT * FROM hero_slides ORDER BY sort, id'),
   ]);
   return {
     sections: (s?.results ?? []) as SectionRow[],
     products: (p?.results ?? []) as ProductRow[],
     variants: (v?.results ?? []) as VariantRow[],
+    slides: (h?.results ?? []) as SlideRow[],
   };
 }
 
@@ -72,7 +75,7 @@ export async function loadSettings(db: D1Database, env: Env): Promise<StoreSetti
 
 export async function loadPublicCatalog(db: D1Database, env: Env): Promise<Catalog> {
   const day = today(env);
-  const [{ sections, products, variants }, settings] = await Promise.all([rows(db), loadSettings(db, env)]);
+  const [{ sections, products, variants, slides }, settings] = await Promise.all([rows(db), loadSettings(db, env)]);
   const live = liveIds(sections, day);
 
   const varsBy = new Map<number, Product['variants']>();
@@ -108,13 +111,20 @@ export async function loadPublicCatalog(db: D1Database, env: Env): Promise<Catal
           }))
           .filter((s) => s.products.length > 0 || s.children.length > 0);
 
-  return { sections: build(null, 0), settings };
+  const heroSlides: HeroSlide[] = slides
+    .filter((h) => h.active && h.image)
+    .map((h) => ({ id: h.id, image: h.image, imageAlt: h.image_alt, title: h.title, productId: h.product_id }));
+
+  return { sections: build(null, 0), slides: heroSlides, settings };
 }
 
 export async function loadAdminCatalog(db: D1Database, env: Env): Promise<AdminCatalog> {
   const day = today(env);
-  const { sections, products, variants } = await rows(db);
+  const { sections, products, variants, slides } = await rows(db);
   const live = liveIds(sections, day);
+  const adminSlides: AdminSlide[] = slides.map((h) => ({
+    id: h.id, image: h.image, imageAlt: h.image_alt, title: h.title, productId: h.product_id, active: !!h.active, sort: h.sort,
+  }));
   const adminSections: AdminSection[] = sections.map((s) => ({
     id: s.id, parentId: s.parent_id, slug: s.slug, name: s.name, blurb: s.blurb, sort: s.sort,
     active: !!s.active, startsOn: s.starts_on, endsOn: s.ends_on, tone: s.tone, live: live.has(s.id),
@@ -127,5 +137,5 @@ export async function loadAdminCatalog(db: D1Database, env: Env): Promise<AdminC
       .filter((v) => v.product_id === p.id)
       .map((v) => ({ id: v.id, label: v.label, priceCents: v.price_cents, active: !!v.active })),
   }));
-  return { today: day, sections: adminSections, products: adminProducts };
+  return { today: day, slides: adminSlides, sections: adminSections, products: adminProducts };
 }

@@ -56,3 +56,9 @@ export async function variantStatements(db: D1Database, productId: number, p: Pr
   for (const id of own) if (!keep.has(id)) out.push(db.prepare('DELETE FROM variants WHERE id = ?1').bind(id));
   return out;
 }
+
+export async function checkProduct(db: D1Database, productId: number | null): Promise<void> {
+  if (productId === null) return;
+  const p = await db.prepare('SELECT id FROM products WHERE id = ?1').bind(productId).first();
+  if (!p) throw new HttpError(422, 'El producto no existe.', { productId: 'Elige un producto' });
+}

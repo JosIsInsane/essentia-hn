@@ -5,11 +5,13 @@ import { CatalogPage } from './CatalogPage';
 import { Login } from './Login';
 import { OrdersPage } from './OrdersPage';
 import { SettingsPage } from './SettingsPage';
+import { SlidesPage } from './SlidesPage';
 
-type Tab = 'catalogo' | 'pedidos' | 'ajustes';
+type Tab = 'catalogo' | 'pedidos' | 'portada' | 'ajustes';
 const TABS: { id: Tab; label: string }[] = [
   { id: 'pedidos', label: 'Pedidos' },
   { id: 'catalogo', label: 'Catálogo' },
+  { id: 'portada', label: 'Portada' },
   { id: 'ajustes', label: 'Ajustes' },
 ];
 
@@ -66,6 +68,7 @@ export function App() {
       <main className="main">
         {tab === 'pedidos' && <OrdersPage toast={toast} onCounts={setNewCount} />}
         {tab === 'catalogo' && (catalog ? <CatalogPage data={catalog} reload={reload} toast={toast} /> : <p className="muted">Cargando…</p>)}
+        {tab === 'portada' && (catalog ? <SlidesPage data={catalog} reload={reload} toast={toast} /> : <p className="muted">Cargando…</p>)}
         {tab === 'ajustes' && (catalog ? <SettingsPage sections={catalog.sections} toast={toast} /> : <p className="muted">Cargando…</p>)}
       </main>
       {toastMsg && <div className="toast" role="status">{toastMsg}</div>}

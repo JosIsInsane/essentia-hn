@@ -39,8 +39,19 @@ export interface AdminProduct {
   variants: AdminVariant[];
 }
 
+export interface AdminSlide {
+  id: number;
+  image: string;
+  imageAlt: string;
+  title: string;
+  productId: number | null;
+  active: boolean;
+  sort: number;
+}
+
 export interface AdminCatalog {
   today: string;
+  slides: AdminSlide[];
   sections: AdminSection[];
   products: AdminProduct[];
 }

@@ -7,7 +7,7 @@ import { applyLight, initialLight, switchLight, type Light } from './light';
 import { countProducts, filterSections } from './search';
 import { CatalogNav } from './components/CatalogNav';
 import { CartDialog, type Index } from './components/CartDialog';
-import { HeroSlides } from './components/HeroSlides';
+import { HeroSlides, type Slide } from './components/HeroSlides';
 import { Bag, WhatsApp } from './components/Icons';
 import { LightSwitch } from './components/LightSwitch';
 import { ProductDialog } from './components/ProductDialog';
@@ -29,18 +29,28 @@ function buildIndex(sections: Section[]): Index {
   return { product, variant };
 }
 
-/** Fotos de portada: productos destacados en el orden del catálogo (máx. 6). */
-function heroSlides(c: Catalog): Product[] {
-  const out: Product[] = [];
+/** Fotos de portada: primero los productos destacados (máx. 6) y luego las fotos solo de portada. */
+function heroSlides(c: Catalog, index: Index): Slide[] {
+  const out: Slide[] = [];
   const walk = (list: Section[]) => {
     for (const s of list) {
-      out.push(...s.products.filter((p) => p.featured && p.image));
+      for (const p of s.products) {
+        if (!p.featured || !p.image) continue;
+        out.push({ key: `p${p.id}`, image: p.image, alt: p.imageAlt, title: p.name, sub: `desde ${lempiras(Math.min(...p.variants.map((v) => v.priceCents)))}`, product: p });
+      }
       walk(s.children);
     }
   };
   walk(c.sections);
-  if (!out.length) out.push(...c.sections.flatMap((s) => [...s.products, ...s.children.flatMap((x) => x.products)]).slice(0, 1));
-  return out.slice(0, 6);
+  const featured = out.slice(0, 6);
+  const own = c.slides.map((h): Slide => {
+    const product = h.productId ? index.product.get(h.productId) : undefined;
+    return { key: `s${h.id}`, image: h.image, alt: h.imageAlt, title: h.title, sub: product ? `desde ${lempiras(Math.min(...product.variants.map((v) => v.priceCents)))}` : '', product };
+  });
+  const all = [...featured, ...own];
+  if (all.length) return all;
+  const first = c.sections.flatMap((s) => [...s.products, ...s.children.flatMap((x) => x.products)])[0];
+  return first ? [{ key: `p${first.id}`, image: first.image, alt: first.imageAlt, title: first.name, sub: '', product: first }] : [];
 }
 
 export function App() {
@@ -65,7 +75,7 @@ export function App() {
 
   const index = useMemo(() => buildIndex(catalog?.sections ?? []), [catalog]);
   const shown = useMemo(() => (catalog ? filterSections(catalog.sections, query) : []), [catalog, query]);
-  const slides = useMemo(() => (catalog ? heroSlides(catalog) : []), [catalog]);
+  const slides = useMemo(() => (catalog ? heroSlides(catalog, index) : []), [catalog, index]);
 
   // Al cargar: quita del carrito lo que ya no existe y salta al ancla si la hay.
   useEffect(() => {
@@ -165,7 +175,7 @@ export function App() {
               <li>Pides aquí, coordinas por WhatsApp</li>
             </ul>
           </div>
-          {catalog ? <HeroSlides products={slides} onOpen={setOpen} /> : <div className="slides-arch slides-skel" aria-hidden="true" />}
+          {catalog ? <HeroSlides slides={slides} onOpen={setOpen} /> : <div className="slides-arch slides-skel" aria-hidden="true" />}
         </div>
       </header>
 
