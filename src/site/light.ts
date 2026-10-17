@@ -31,13 +31,13 @@ function flameSpot(): { x: number; y: number } {
  */
 export function switchLight(next: Light, commit: (l: Light) => void): void {
   const run = () => { applyLight(next); commit(next); };
-  if (reduced()) { run(); return; }
+  const calm = reduced(); // con "reducir movimiento" solo hay un fundido suave, sin resplandor ni vibración
   const dark = next === 'off';
   const fx = document.createElement('div');
   fx.className = `light-fx ${dark ? 'to-dark' : 'to-light'}`;
   fx.setAttribute('aria-hidden', 'true');
   let bloom: HTMLElement | null = null;
-  if (dark) {
+  if (dark && !calm) {
     const { x, y } = flameSpot();
     bloom = document.createElement('div');
     bloom.className = 'fx-bloom';
@@ -46,10 +46,10 @@ export function switchLight(next: Light, commit: (l: Light) => void): void {
     fx.append(bloom);
   }
   document.body.append(fx);
-  try { navigator.vibrate?.(10); } catch { /* sin vibración */ }
+  try { if (!calm) navigator.vibrate?.(10); } catch { /* sin vibración */ }
 
-  const total = dark ? 2200 : 1300;
-  const swap = dark ? 950 : 520;
+  const total = calm ? 900 : dark ? 2200 : 1300;
+  const swap = calm ? 380 : dark ? 950 : 520;
   const soft = 'cubic-bezier(0.45, 0, 0.25, 1)';
   const anim = fx.animate(
     dark
