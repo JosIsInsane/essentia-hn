@@ -21,8 +21,12 @@ export function FlameFrame({ image, alt, caption }: { image: string; alt: string
     <figure style={{ margin: 0 }}>
       <div className="flame-frame">
         <img {...a} sizes="(max-width: 860px) 78vw, 440px" alt={alt} width={440} height={587} fetchPriority="high" />
+        <span className="flame-fill" aria-hidden="true" />
         <svg className="outline" viewBox="0 0 300 400" aria-hidden="true" focusable="false">
           <path d={D} pathLength={1} />
+        </svg>
+        <svg className="smoke" viewBox="0 0 60 120" aria-hidden="true" focusable="false">
+          <path d="M30 118 C18 96 44 82 30 60 C18 42 40 30 30 4" pathLength={1} />
         </svg>
       </div>
       {caption && <figcaption className="flame-caption">{caption}</figcaption>}

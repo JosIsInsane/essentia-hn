@@ -1,3 +1,5 @@
+import { flushSync } from 'react-dom';
+
 // "Apaga la luz": tema nocturno con la vela encendida. Se recuerda por visitante.
 export type Light = 'on' | 'off';
 const KEY = 'essentia:light';
@@ -17,56 +19,23 @@ export function applyLight(l: Light): void {
 
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/** Centro de la llama de la portada (o del centro de la pantalla si no se ve). */
-function flameSpot(): { x: number; y: number } {
-  const el = document.querySelector('.flame-frame');
-  const r = el?.getBoundingClientRect();
-  if (r && r.bottom > 0 && r.top < innerHeight) return { x: r.left + r.width / 2, y: Math.min(Math.max(r.top + r.height * 0.4, 0), innerHeight) };
-  return { x: innerWidth / 2, y: innerHeight * 0.45 };
-}
-
 /**
- * Apagar: la luz baja poco a poco y la llama se enciende con un resplandor suave.
- * Encender: un velo cálido sube y se disipa. Funciona en cualquier navegador (sin View Transitions).
+ * Cambia la luz con un fundido suave (sin destellos) y enciende o apaga la llama de la portada.
+ * Usa View Transitions; si el navegador no las tiene, el cambio es directo y solo se anima la llama.
  */
 export function switchLight(next: Light, commit: (l: Light) => void): void {
+  const root = document.documentElement;
   const run = () => { applyLight(next); commit(next); };
-  const calm = reduced(); // con "reducir movimiento" solo hay un fundido suave, sin resplandor ni vibración
-  const dark = next === 'off';
-  const fx = document.createElement('div');
-  fx.className = `light-fx ${dark ? 'to-dark' : 'to-light'}`;
-  fx.setAttribute('aria-hidden', 'true');
-  let bloom: HTMLElement | null = null;
-  if (dark && !calm) {
-    const { x, y } = flameSpot();
-    bloom = document.createElement('div');
-    bloom.className = 'fx-bloom';
-    bloom.style.left = `${x}px`;
-    bloom.style.top = `${y}px`;
-    fx.append(bloom);
+  try { if (!reduced()) navigator.vibrate?.(10); } catch { /* sin vibración */ }
+  const flame = () => {
+    root.dataset.flame = next === 'off' ? 'ignite' : 'snuff';
+    setTimeout(() => { delete root.dataset.flame; }, 3000);
+  };
+  const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+  if (doc.startViewTransition) {
+    doc.startViewTransition(() => { flushSync(run); flame(); });
+  } else {
+    run();
+    flame();
   }
-  document.body.append(fx);
-  try { if (!calm) navigator.vibrate?.(10); } catch { /* sin vibración */ }
-
-  const total = calm ? 900 : dark ? 2200 : 1300;
-  const swap = calm ? 380 : dark ? 950 : 520;
-  const soft = 'cubic-bezier(0.45, 0, 0.25, 1)';
-  const anim = fx.animate(
-    dark
-      ? [{ opacity: 0, offset: 0 }, { opacity: 0.82, offset: 0.42 }, { opacity: 0.82, offset: 0.5 }, { opacity: 0, offset: 1 }]
-      : [{ opacity: 0, offset: 0 }, { opacity: 0.7, offset: 0.4 }, { opacity: 0.7, offset: 0.45 }, { opacity: 0, offset: 1 }],
-    { duration: total, easing: soft, fill: 'forwards' },
-  );
-  bloom?.animate(
-    [
-      { transform: 'translate(-50%, -50%) scale(0.15)', opacity: 0, offset: 0 },
-      { transform: 'translate(-50%, -50%) scale(0.15)', opacity: 0, offset: 0.4 },
-      { transform: 'translate(-50%, -50%) scale(0.6)', opacity: 0.55, offset: 0.7 },
-      { transform: 'translate(-50%, -50%) scale(1.1)', opacity: 0, offset: 1 },
-    ],
-    { duration: total, easing: soft, fill: 'forwards' },
-  );
-  setTimeout(run, swap);
-  anim.finished.then(() => fx.remove(), () => fx.remove());
-  setTimeout(() => fx.remove(), total + 400);
 }
