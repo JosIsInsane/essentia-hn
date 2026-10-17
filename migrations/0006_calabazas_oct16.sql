@@ -7,3 +7,6 @@ VALUES (2, 'calabaza-cera', 'Calabaza de cera', 'Vela con forma de calabaza', ''
   '[]', 'calabaza cera otono naranja blanca', 0, 1, 3);
 INSERT INTO variants (product_id, label, price_cents, sort)
 VALUES ((SELECT id FROM products WHERE slug = 'calabaza-cera'), 'Unidad', 15000, 1);
+
+-- Cada calabaza trae aroma (confirmado por el cliente). Aromas por confirmar: se cargaron los de las demás decorativas.
+UPDATE products SET scents = '["Vainilla","Canela","Lavanda"]', subtitle = 'Vela con forma de calabaza, por unidad' WHERE slug = 'calabaza-cera';
