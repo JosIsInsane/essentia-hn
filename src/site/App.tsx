@@ -9,7 +9,6 @@ import { CatalogNav } from './components/CatalogNav';
 import { CartDialog, type Index } from './components/CartDialog';
 import { FlameDefs, FlameFrame } from './components/Flame';
 import { Bag, WhatsApp } from './components/Icons';
-import { Candlelight } from './components/Candlelight';
 import { LightSwitch } from './components/LightSwitch';
 import { ProductDialog } from './components/ProductDialog';
 import { SectionView } from './components/SectionView';
@@ -123,7 +122,6 @@ export function App() {
       <FlameDefs />
       {s?.announcement && <p className="announce">{s.announcement}</p>}
 
-      <Candlelight off={lightOff} />
       <header className="hero">
         <div className="embers" aria-hidden="true">
           {Array.from({ length: 14 }, (_, i) => (
@@ -136,7 +134,7 @@ export function App() {
             <span className="brand-sub">Ash &amp; Aroma</span>
           </a>
           <div className="top-actions">
-            <LightSwitch off={lightOff} onToggle={(o) => switchLight(lightOff ? 'on' : 'off', o, setLight)} />
+            <LightSwitch off={lightOff} onToggle={() => switchLight(lightOff ? 'on' : 'off', setLight)} />
           </div>
         </div>
         <div className="wrap hero-grid">
