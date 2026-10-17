@@ -261,8 +261,7 @@ export function ProductEditor({ draft, sections, onClose, onSaved }: {
           {p.variants.map((v, i) => (
             <div className="variant" key={v.id}>
               <input aria-label={`Tamaño ${i + 1}`} value={v.label} maxLength={40} placeholder="7 oz" onChange={(e) => setVariant(i, { label: e.target.value })} />
-              <input aria-label={`Precio ${i + 1}`} type="number" min={0} step="1" inputMode="decimal" value={v.priceCents / 100}
-                onChange={(e) => setVariant(i, { priceCents: Math.round(Number(e.target.value || 0) * 100) })} />
+              <PriceInput label={`Precio ${i + 1}`} cents={v.priceCents} onChange={(c) => setVariant(i, { priceCents: c })} />
               <Switch checked={v.active} onChange={(x) => setVariant(i, { active: x })} label="Activo" />
               <button type="button" className="icon" aria-label={`Quitar tamaño ${i + 1}`} disabled={p.variants.length === 1}
                 onClick={() => up('variants', p.variants.filter((_, j) => j !== i))}>✕</button>
@@ -278,6 +277,30 @@ export function ProductEditor({ draft, sections, onClose, onSaved }: {
         <Switch checked={p.featured} onChange={(v) => up('featured', v)} label="Destacado (portada)" />
       </div>
     </Modal>
+  );
+}
+
+/** Precio en lempiras: se puede borrar todo y escribir de nuevo; al salir se ordena el formato. */
+function PriceInput({ label, cents, onChange }: { label: string; cents: number; onChange: (c: number) => void }) {
+  const fmt = (c: number) => (c % 100 === 0 ? String(c / 100) : (c / 100).toFixed(2));
+  const [text, setText] = useState(fmt(cents));
+  useEffect(() => {
+    // Si el valor cambia desde afuera (otro producto), se sincroniza; si es el mismo número, se respeta lo escrito.
+    setText((t) => (Math.round((parseFloat(t.replace(',', '.')) || 0) * 100) === cents ? t : fmt(cents)));
+  }, [cents]);
+  return (
+    <span className="price-input">
+      <span aria-hidden="true">L</span>
+      <input aria-label={label} type="text" inputMode="decimal" autoComplete="off" value={text} placeholder="0"
+        onFocus={(e) => e.currentTarget.select()}
+        onChange={(e) => {
+          const t = e.target.value.replace(/[^\d.,]/g, '').slice(0, 9);
+          if ((t.match(/[.,]/g) ?? []).length > 1) return;
+          setText(t);
+          onChange(Math.round((parseFloat(t.replace(',', '.')) || 0) * 100));
+        }}
+        onBlur={() => setText(fmt(cents))} />
+    </span>
   );
 }
 

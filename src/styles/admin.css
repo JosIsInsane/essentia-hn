@@ -127,3 +127,7 @@ dialog::backdrop { background: rgba(30, 5, 11, 0.5); }
   .prow .tools { grid-column: 1 / -1; }
   .variant { grid-template-columns: minmax(0, 1fr) 110px; }
 }
+
+.price-input { position: relative; display: block; }
+.price-input > span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted, #6e4a50); pointer-events: none; }
+.price-input input { padding-left: 28px !important; font-variant-numeric: tabular-nums; }

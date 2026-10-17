@@ -325,12 +325,15 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .hero-proof { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 32px 0 0; padding: 0; font-size: var(--step--1); color: rgba(247, 238, 223, 0.78); }
 .hero-proof li { display: inline-flex; align-items: center; gap: 8px; }
 .hero-proof li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
-.ritual { background: var(--paper); padding-block: clamp(64px, 9vw, 112px); text-align: center; }
-.ritual .eyebrow { color: var(--gold-ink); }
+.ritual { background: var(--surface); padding-block: clamp(64px, 9vw, 112px); text-align: center; }
+.ritual .eyebrow { color: var(--wine); font-weight: 500; }
+:root[data-light='off'] .ritual .eyebrow { color: var(--gold-soft); }
 .ritual h2 { font-family: var(--display); font-weight: 400; color: var(--heading); font-size: var(--step-3); line-height: 1.1; margin: 0 auto 48px; max-width: 20ch; text-wrap: balance; }
 .ritual-list { list-style: none; margin: 0 0 48px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); text-align: left; }
-.ritual-list li { border-top: 1px solid var(--line); padding-top: 20px; }
-.ritual-n { display: block; font-family: var(--display); font-size: 2.25rem; color: var(--accent); line-height: 1; margin-bottom: 14px; }
+.ritual-list li { border-top: 2px solid var(--gold); padding-top: 20px; }
+.ritual-n { display: block; font-family: var(--display); font-weight: 500; font-size: 2.25rem; color: var(--gold-ink); line-height: 1; margin-bottom: 14px; }
 .ritual-list h3 { font-family: var(--display); font-weight: 500; font-size: var(--step-1); color: var(--heading); margin: 0 0 8px; }
 .ritual-list p { margin: 0; color: var(--text-soft); }
 @media (max-width: 760px) { .ritual-list { grid-template-columns: 1fr; text-align: left; } .ritual h2 { max-width: none; } }
+
+:root[data-light='off'] .ritual-n { color: var(--gold-soft); }
