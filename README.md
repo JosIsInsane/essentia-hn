@@ -60,4 +60,4 @@ Ver [SECURITY.md](SECURITY.md) para el detalle de cómo se protege la tienda y l
 - Aromas de la **Calabaza de cera** (cargué vainilla, canela y lavanda, como las otras decorativas) y si la **Vela en calabaza de cerámica** sigue en L600.
 - Zonas y costo de envío (la nota del carrito se cambia en Ajustes).
 - Fechas reales de la temporada de otoño (cargada del 1 sep al 30 nov 2026).
-- Dominio propio (por ahora sería `essentia.pages.dev`).
+- Dominio propio: essentiahn.com ya conectado a Cloudflare Pages (también www) y agregado a Turnstile.
