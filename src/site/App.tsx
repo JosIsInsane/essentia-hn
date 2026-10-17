@@ -3,12 +3,14 @@ import type { Catalog, Product, Section } from '../shared/types';
 import { lempiras } from '../shared/money';
 import { getCatalog } from './api';
 import { cart, useCart } from './cart';
-import { applyLight, initialLight, type Light } from './light';
+import { applyLight, initialLight, switchLight, type Light } from './light';
 import { countProducts, filterSections } from './search';
 import { CatalogNav } from './components/CatalogNav';
 import { CartDialog, type Index } from './components/CartDialog';
 import { FlameDefs, FlameFrame } from './components/Flame';
-import { Bag, Candle, WhatsApp } from './components/Icons';
+import { Bag, WhatsApp } from './components/Icons';
+import { Candlelight } from './components/Candlelight';
+import { LightSwitch } from './components/LightSwitch';
 import { ProductDialog } from './components/ProductDialog';
 import { SectionView } from './components/SectionView';
 
@@ -121,18 +123,20 @@ export function App() {
       <FlameDefs />
       {s?.announcement && <p className="announce">{s.announcement}</p>}
 
+      <Candlelight off={lightOff} />
       <header className="hero">
+        <div className="embers" aria-hidden="true">
+          {Array.from({ length: 14 }, (_, i) => (
+            <span key={i} style={{ '--x': `${(i * 37 + 8) % 100}%`, '--d': `${7 + (i * 3) % 6}s`, '--delay': `${-((i * 5) % 9)}s`, '--s': `${2 + (i % 3)}px` } as React.CSSProperties} />
+          ))}
+        </div>
         <div className="wrap top-row">
           <a className="brand" href="/" aria-label="Essentia Ash & Aroma, inicio">
             <span className="brand-name">Essentia</span>
             <span className="brand-sub">Ash &amp; Aroma</span>
           </a>
           <div className="top-actions">
-            <button type="button" className="light-toggle" aria-pressed={lightOff} onClick={() => setLight(lightOff ? 'on' : 'off')}>
-              <Candle />
-              <span className="lt-text">{lightOff ? 'Encender la luz' : 'Apagar la luz'}</span>
-              <span className="sr-only">{lightOff ? '' : ' para ver la vela encendida'}</span>
-            </button>
+            <LightSwitch off={lightOff} onToggle={(o) => switchLight(lightOff ? 'on' : 'off', o, setLight)} />
           </div>
         </div>
         <div className="wrap hero-grid">

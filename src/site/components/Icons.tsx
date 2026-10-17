@@ -25,3 +25,10 @@ export const Candle = ({ className }: P) => (
     <path d="M7.5 13.5h9v8h-9z" />
   </svg>
 );
+
+/** Foco encendido: el símbolo de "luz prendida" del interruptor. */
+export const Bulb = ({ className }: P) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...base}>
+    <path d="M9 17.5h6M10 20.5h4M12 2.5a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 2.5Z" />
+  </svg>
+);
