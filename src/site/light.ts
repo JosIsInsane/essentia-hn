@@ -19,23 +19,11 @@ export function applyLight(l: Light): void {
 
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/**
- * Cambia la luz con un fundido suave (sin destellos) y enciende o apaga la llama de la portada.
- * Usa View Transitions; si el navegador no las tiene, el cambio es directo y solo se anima la llama.
- */
+/** Cambia la luz con un fundido suave (View Transitions); si no hay soporte, el cambio es directo. */
 export function switchLight(next: Light, commit: (l: Light) => void): void {
-  const root = document.documentElement;
   const run = () => { applyLight(next); commit(next); };
   try { if (!reduced()) navigator.vibrate?.(10); } catch { /* sin vibración */ }
-  const flame = () => {
-    root.dataset.flame = next === 'off' ? 'ignite' : 'snuff';
-    setTimeout(() => { delete root.dataset.flame; }, 3000);
-  };
   const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
-  if (doc.startViewTransition) {
-    doc.startViewTransition(() => { flushSync(run); flame(); });
-  } else {
-    run();
-    flame();
-  }
+  if (doc.startViewTransition) doc.startViewTransition(() => flushSync(run));
+  else run();
 }

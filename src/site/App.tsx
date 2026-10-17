@@ -7,7 +7,7 @@ import { applyLight, initialLight, switchLight, type Light } from './light';
 import { countProducts, filterSections } from './search';
 import { CatalogNav } from './components/CatalogNav';
 import { CartDialog, type Index } from './components/CartDialog';
-import { FlameDefs, FlameFrame } from './components/Flame';
+import { HeroSlides } from './components/HeroSlides';
 import { Bag, WhatsApp } from './components/Icons';
 import { LightSwitch } from './components/LightSwitch';
 import { ProductDialog } from './components/ProductDialog';
@@ -29,10 +29,18 @@ function buildIndex(sections: Section[]): Index {
   return { product, variant };
 }
 
-function heroPick(c: Catalog): { section?: Section; product?: Product } {
-  const section = c.sections.find((s) => s.slug === c.settings.heroSection) ?? c.sections[0];
-  const all = section ? [...section.products, ...section.children.flatMap((x) => x.products)] : [];
-  return { section, product: all.find((p) => p.featured) ?? all[0] };
+/** Fotos de portada: productos destacados en el orden del catálogo (máx. 6). */
+function heroSlides(c: Catalog): Product[] {
+  const out: Product[] = [];
+  const walk = (list: Section[]) => {
+    for (const s of list) {
+      out.push(...s.products.filter((p) => p.featured && p.image));
+      walk(s.children);
+    }
+  };
+  walk(c.sections);
+  if (!out.length) out.push(...c.sections.flatMap((s) => [...s.products, ...s.children.flatMap((x) => x.products)]).slice(0, 1));
+  return out.slice(0, 6);
 }
 
 export function App() {
@@ -57,7 +65,7 @@ export function App() {
 
   const index = useMemo(() => buildIndex(catalog?.sections ?? []), [catalog]);
   const shown = useMemo(() => (catalog ? filterSections(catalog.sections, query) : []), [catalog, query]);
-  const hero = useMemo(() => (catalog ? heroPick(catalog) : {}), [catalog]);
+  const slides = useMemo(() => (catalog ? heroSlides(catalog) : []), [catalog]);
 
   // Al cargar: quita del carrito lo que ya no existe y salta al ancla si la hay.
   useEffect(() => {
@@ -119,7 +127,6 @@ export function App() {
   return (
     <>
       <a className="skip" href="#catalogo">Saltar al catálogo</a>
-      <FlameDefs />
       {s?.announcement && <p className="announce">{s.announcement}</p>}
 
       <header className="hero">
@@ -158,13 +165,7 @@ export function App() {
               <li>Pides aquí, coordinas por WhatsApp</li>
             </ul>
           </div>
-          {hero.product && (
-            <FlameFrame
-              image={hero.product.image}
-              alt={hero.product.imageAlt}
-              caption={`${hero.product.name} · ${lempiras(Math.min(...hero.product.variants.map((v) => v.priceCents)))}`}
-            />
-          )}
+          {catalog ? <HeroSlides products={slides} onOpen={setOpen} /> : <div className="slides-arch slides-skel" aria-hidden="true" />}
         </div>
       </header>
 
