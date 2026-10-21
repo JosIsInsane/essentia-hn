@@ -20,6 +20,20 @@ async function call<T>(url: string, init?: RequestInit): Promise<T> {
 
 export const getCatalog = () => call<Catalog>('/api/catalog');
 
+let inline: Catalog | null | undefined;
+
+/** Catálogo que el servidor ya metió en la página (functions/index.ts), o null si no vino. */
+export function takeInlineCatalog(): Catalog | null {
+  if (inline !== undefined) return inline;
+  const text = document.getElementById('catalog-data')?.textContent;
+  try {
+    inline = text ? (JSON.parse(text) as Catalog) : null;
+  } catch {
+    inline = null;
+  }
+  return inline;
+}
+
 export interface OrderResult { code: string; totalCents: number; lines: PricedLine[]; whatsappUrl: string }
 
 export const placeOrder = (body: unknown) =>

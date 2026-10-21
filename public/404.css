@@ -1,0 +1,16 @@
+/* Página 404 (estática, sin JavaScript). Colores de src/styles/tokens.css. */
+html { background: #3e0814; color: #f7eedf; }
+body {
+  margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px;
+  font-family: Georgia, 'Times New Roman', serif; text-align: center;
+}
+main { max-width: 32rem; }
+.brand { font-size: 2rem; margin: 0 0 40px; }
+.brand small { display: block; font-family: system-ui, sans-serif; font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase; color: #e4c98a; margin-top: 4px; }
+h1 { font-weight: 400; font-size: clamp(2rem, 7vw, 3rem); line-height: 1.05; margin: 0 0 16px; }
+p { font-family: system-ui, sans-serif; line-height: 1.6; opacity: 0.85; margin: 0 0 32px; }
+.btn {
+  display: inline-block; padding: 14px 28px; border-radius: 999px; background: #e4c98a; color: #2a0a12;
+  font-family: system-ui, sans-serif; font-weight: 600; text-decoration: none;
+}
+.btn:focus-visible { outline: 2px solid #f7eedf; outline-offset: 3px; }

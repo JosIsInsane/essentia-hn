@@ -26,7 +26,7 @@ export const orderSchema = z
     phone: z
       .string()
       .transform((s) => s.replace(/[\s\-().]/g, ''))
-      .pipe(z.string().regex(/^\+?\d{8,15}$/, 'Escribe un número de 8 dígitos, ej. 9563-2609')),
+      .pipe(z.string().regex(/^\+?\d{8,15}$/, 'Escribe un número de 8 dígitos, ej. 9876-5432')),
     delivery: z.enum(['envio', 'retiro']),
     city: line(0, 60).default(''),
     address: block(240).default(''),

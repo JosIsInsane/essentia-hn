@@ -8,6 +8,7 @@ Tienda en línea de Essentia: catálogo de velas de soya, velas decorativas y ar
 
 - **Tienda** (`/`): catálogo por secciones y subsecciones, buscador sin acentos (atajo `/`), barra que marca dónde estás, ficha de cada producto con tamaño y aroma, carrito y pedido. Al terminar, el cliente manda el pedido por WhatsApp con un código (`ESS-XXXXXX`).
 - **Modo vela** ("Apagar la luz"): tema nocturno con la llama de la portada encendida. Se recuerda por visitante y respeta el modo oscuro del celular.
+- **Google y redes**: `functions/index.ts` mete el catálogo y los datos de schema.org (tienda y productos con precio) dentro del HTML de `/`, con caché de 1 minuto que se borra al guardar en el panel. También redirige `www` a `essentiahn.com`. Hay sitemap, 404 real, imagen para compartir (`public/og.jpg`) e íconos; se regeneran con `node scripts/make-share-images.mjs`.
 - **Panel** (`/admin`): pedidos con estados, catálogo (encender/apagar secciones, fechas de temporada, orden, productos, precios, fotos) y ajustes (WhatsApp, aviso, portada, pedidos en línea sí/no).
 
 ## Cómo está hecho

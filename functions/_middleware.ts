@@ -1,7 +1,7 @@
 import type { Fn } from '../server/env';
 import { errorResponse } from '../server/http';
 
-// Corre antes de toda función (/api/*, /img/*). Atrapa errores y pone cabeceras seguras.
+// Corre antes de toda función (/, /api/*, /img/*). Atrapa errores y pone cabeceras seguras.
 export const onRequest: Fn = async (ctx) => {
   let res: Response;
   try {
@@ -12,7 +12,7 @@ export const onRequest: Fn = async (ctx) => {
   const out = new Response(res.body, res);
   const h = out.headers;
   h.set('X-Content-Type-Options', 'nosniff');
-  h.set('Referrer-Policy', 'no-referrer');
+  if (!h.has('Referrer-Policy')) h.set('Referrer-Policy', 'no-referrer');
   h.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
   h.set('Cross-Origin-Resource-Policy', 'same-origin');
   h.set('X-Frame-Options', 'DENY');

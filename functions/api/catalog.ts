@@ -1,9 +1,9 @@
 import type { Fn } from '../../server/env';
 import { json } from '../../server/http';
-import { loadPublicCatalog } from '../../server/catalog';
+import { cachedCatalog } from '../../server/catalog-cache';
 
-export const onRequestGet: Fn = async ({ env }) => {
-  const catalog = await loadPublicCatalog(env.DB, env);
+export const onRequestGet: Fn = async ({ env, waitUntil }) => {
+  const catalog = await cachedCatalog(env, waitUntil);
   // Caché corto: los cambios del admin se ven en un minuto o menos.
-  return json(catalog, { headers: { 'Cache-Control': 'public, max-age=30, s-maxage=60' } });
+  return json(catalog, { headers: { 'Cache-Control': 'public, max-age=30' } });
 };

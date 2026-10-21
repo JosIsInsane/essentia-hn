@@ -11,7 +11,7 @@ Escribe a josue1235k@gmail.com con el detalle. No abras un issue público.
 | Alguien cambia precios desde el navegador | El servidor ignora todo menos ids, aroma y cantidad. Precio, nombre y disponibilidad se leen de la base. Campos extra se rechazan (`.strict()`). |
 | Pedir algo apagado o fuera de temporada | Se revisa que producto, tamaño y sección (y su sección madre) estén encendidos y dentro de fechas el día de hoy, hora de Honduras. |
 | Inyección SQL | Todas las consultas usan parámetros. Las dos únicas partes armadas a mano son un nombre de tabla de una lista cerrada y los `?1,?2…` de una lista de ids validados. |
-| XSS | React escapa todo el texto. CSP estricta sin scripts en línea; en `/admin` además `require-trusted-types-for 'script'`. No se usa `innerHTML`. |
+| XSS | React escapa todo el texto. CSP estricta sin scripts en línea (solo propios, Turnstile y Cloudflare Web Analytics; el catálogo que va dentro de la página es JSON que no se ejecuta y se escapa `<`); en `/admin` además `require-trusted-types-for 'script'`. No se usa `innerHTML`. |
 | Fotos maliciosas | Solo admin puede subir. Se revisa el tipo por los primeros bytes (JPG, PNG, WebP; nunca SVG), máximo 4 MB, nombre aleatorio. Se sirven con `nosniff` y `CSP: sandbox`. |
 | CSRF | Cookie `SameSite=Strict` y toda petición que cambia datos debe traer `Origin` del mismo sitio (y `Sec-Fetch-Site: same-origin` si el navegador lo manda). |
 | Robo de sesión | Cookie `__Host-`, `HttpOnly`, `Secure`, 12 h. La base guarda solo el hash SHA-256 del token; cerrar sesión la borra. |

@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Allow: /api/catalog
 Disallow: /api/
+
+Sitemap: https://essentiahn.com/sitemap.xml

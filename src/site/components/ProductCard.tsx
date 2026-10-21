@@ -13,7 +13,7 @@ export function ProductCard({ product, onOpen }: { product: Product; onOpen: (p:
   return (
     <article className="card" style={style}>
       <button type="button" className="card-photo" onClick={() => onOpen(product)} tabIndex={-1} aria-hidden="true">
-        <img {...img} sizes="(max-width: 600px) 92vw, 300px" alt="" loading="lazy" decoding="async" width={480} height={600} />
+        <img {...img} sizes="(max-width: 600px) 92vw, 300px" alt={product.imageAlt} loading="lazy" decoding="async" width={480} height={600} />
       </button>
       {product.featured && <span className="tag-featured">Temporada</span>}
       <div className="label">

@@ -151,7 +151,7 @@ export function CartDialog({ open, onClose, index, settings }: Props) {
           </div>
           <div className="field">
             <label htmlFor="f-phone">WhatsApp o teléfono</label>
-            <input {...fieldProps('phone')} type="tel" inputMode="tel" autoComplete="tel" required maxLength={20} placeholder="9563-2609" />
+            <input {...fieldProps('phone')} type="tel" inputMode="tel" autoComplete="tel" required maxLength={20} placeholder="9876-5432" />
             {err('phone')}
           </div>
           <fieldset>

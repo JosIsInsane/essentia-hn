@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Catalog, Product, Section } from '../shared/types';
 import { lempiras } from '../shared/money';
-import { getCatalog } from './api';
+import { getCatalog, takeInlineCatalog } from './api';
 import { cart, useCart } from './cart';
 import { applyLight, initialLight, switchLight, type Light } from './light';
 import { countProducts, filterSections } from './search';
@@ -54,7 +54,7 @@ function heroSlides(c: Catalog, index: Index): Slide[] {
 }
 
 export function App() {
-  const [catalog, setCatalog] = useState<Catalog | null>(null);
+  const [catalog, setCatalog] = useState<Catalog | null>(takeInlineCatalog);
   const [failed, setFailed] = useState(false);
   const [query, setQuery] = useState(() => new URLSearchParams(location.search).get('q')?.slice(0, 60) ?? '');
   const [open, setOpen] = useState<Product | null>(null);
@@ -70,7 +70,9 @@ export function App() {
     setFailed(false);
     getCatalog().then(setCatalog, () => setFailed(true));
   }, []);
-  useEffect(load, [load]);
+  // Si el catálogo vino dentro de la página no hace falta pedirlo.
+  const inlined = useRef(catalog !== null);
+  useEffect(() => { if (!inlined.current) load(); }, [load]);
   useEffect(() => applyLight(light), [light]);
 
   const index = useMemo(() => buildIndex(catalog?.sections ?? []), [catalog]);
@@ -253,13 +255,13 @@ export function App() {
       </footer>
 
       {catalog && (
-        <button type="button" className={`fab${bump ? ' bump' : ''}`} onClick={() => setCartOpen(true)} aria-label={`Ver pedido: ${count} productos, ${lempiras(total)}`}>
+        <button type="button" className={`fab${bump ? ' bump' : ''}`} onClick={() => setCartOpen(true)} aria-label={`Ver pedido: ${count} ${count === 1 ? 'producto' : 'productos'}, ${lempiras(total)}`}>
           <Bag />
           <span aria-hidden="true">{count > 0 ? lempiras(total) : 'Tu pedido'}</span>
           {count > 0 && <span className="count" aria-hidden="true">{count}</span>}
         </button>
       )}
-      <p className="sr-only" aria-live="polite">{count > 0 ? `${count} productos en tu pedido` : ''}</p>
+      <p className="sr-only" aria-live="polite">{count > 0 ? `${count} ${count === 1 ? 'producto' : 'productos'} en tu pedido` : ''}</p>
 
       <ProductDialog product={open} onClose={() => setOpen(null)} onAdded={added} />
       {catalog && <CartDialog open={cartOpen} onClose={() => setCartOpen(false)} index={index} settings={catalog.settings} />}

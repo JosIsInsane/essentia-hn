@@ -68,7 +68,7 @@ export function HeroSlides({ slides, onOpen }: { slides: Slide[]; onOpen: (p: Pr
               <img
                 {...imageAttrs(s.image)}
                 sizes="(max-width: 860px) 82vw, 440px"
-                alt={s.product ? '' : s.alt}
+                alt={s.alt}
                 width={440}
                 height={550}
                 loading={k === 0 ? 'eager' : 'lazy'}
